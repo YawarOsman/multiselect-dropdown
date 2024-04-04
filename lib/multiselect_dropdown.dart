@@ -25,6 +25,12 @@ class MultiSelectDropDown<T> extends StatefulWidget {
   // selection type of the dropdown
   final SelectionType selectionType;
 
+  // height
+  final double height;
+
+  // min height
+  final double minHeight;
+
   // Hint
   final String hint;
   final Color? hintColor;
@@ -49,7 +55,7 @@ class MultiSelectDropDown<T> extends StatefulWidget {
   final void Function(int index, ValueItem<T> option)? onOptionRemoved;
 
   // selected option
-  final Icon? selectedOptionIcon;
+  final Widget? selectedOptionIcon;
   final Color? selectedOptionTextColor;
   final Color? selectedOptionBackgroundColor;
   final Widget Function(BuildContext, ValueItem<T>)? selectedItemBuilder;
@@ -233,6 +239,8 @@ class MultiSelectDropDown<T> extends StatefulWidget {
       this.hint = 'Select',
       this.hintColor = Colors.grey,
       this.hintFontSize = 14.0,
+      this.height = 52,
+      this.minHeight = 52,
       this.hintPadding = HintText.hintPaddingDefault,
       this.selectedOptions = const [],
       this.disabledOptions = const [],
@@ -285,6 +293,8 @@ class MultiSelectDropDown<T> extends StatefulWidget {
       required this.networkConfig,
       required this.responseParser,
       this.onOptionRemoved,
+       this.height = 52,
+      this.minHeight = 52,
       this.responseErrorBuilder,
       this.selectedOptionTextColor,
       this.chipConfig = const ChipConfig(),
@@ -484,10 +494,10 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
             splashFactory: null,
             onTap: _toggleFocus,
             child: Container(
-              height: widget.chipConfig.wrapType == WrapType.wrap ? null : 52,
+              height: widget.chipConfig.wrapType == WrapType.wrap ? null : widget.height,
               constraints: BoxConstraints(
                 minWidth: MediaQuery.of(context).size.width,
-                minHeight: 52,
+                minHeight: widget.minHeight,
               ),
               padding: _getContainerPadding(),
               decoration: _getContainerDecoration(),
@@ -698,7 +708,7 @@ class _MultiSelectDropDownState<T> extends State<MultiSelectDropDown<T>> {
       return null;
     }
 
-    final Icon icon = widget.selectedOptionIcon ??
+    final Widget icon = widget.selectedOptionIcon ??
         Icon(
           Icons.check,
           color: widget.optionTextStyle?.color ?? Colors.grey,
